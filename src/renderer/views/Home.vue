@@ -1,15 +1,15 @@
 <template>
   <div>
-    <Row>
-      <h1>Tick-Tick</h1>
+    <Row class-name="title-row" type="flex" align="middle" justify="center">
+      <span>Tick-Tick</span>
     </Row>
-    <Row>
-      <Col>
-        <Button type="primary" @click="addMission">干点啥吧</Button>
-      </Col>
-      <Col>
-        <Button type="success" @click="toMission">起飞吧大佬</Button>
-      </Col>
+    <Row class-name="content-row">
+      <Row class-name="add-mission-row" type="flex" align="middle" justify="center">
+        <Button type="primary" size="large" @click="addMission">今天要嘎哈</Button>
+      </Row>
+      <Row class-name="to-mission-row" type="flex" align="middle" justify="center">
+        <Button type="success" size="large" @click="toMission">起飞吧大佬</Button>
+      </Row>
     </Row>
   </div>
 </template>
@@ -27,3 +27,15 @@ export default {
 };
 </script>
 
+<style>
+.title-row {
+  height: 30vw;
+  font-size: 10vw;
+}
+.content-row {
+  height: 40vw !important;
+}
+.add-mission-row, .to-mission-row {
+  height: 50% !important;
+}
+</style>
