@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Row class-name="title-row" type="flex" align="middle" justify="center">
+    <Row class="title-row" type="flex" align="middle" justify="center">
       <span>Tick-Tick</span>
     </Row>
-    <Row class-name="content-row">
-      <Row class-name="add-mission-row" type="flex" align="middle" justify="center">
+    <Row class="content-row">
+      <Row class="add-mission-row" type="flex" align="middle" justify="center">
         <Button type="primary" size="large" @click="addMission">今天要嘎哈</Button>
       </Row>
-      <Row class-name="to-mission-row" type="flex" align="middle" justify="center">
+      <Row class="to-mission-row" type="flex" align="middle" justify="center">
         <Button type="success" size="large" @click="toMission">起飞吧大佬</Button>
       </Row>
     </Row>
