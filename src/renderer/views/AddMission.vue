@@ -60,12 +60,16 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
+          this.form_items.forEach((value, index) => {
+            value.need_time = Number.parseInt(value.need_time);
+          });
           localStorage.setItem('missions', JSON.stringify(this.form_items));
           this.$Message.success('Success!');
         } else {
           this.$Message.error('Fail!');
         }
       });
+      this.$store.dispatch('setMissionList', this.form_items);
     },
     handleReset(name) {
       this.form_items = [{
@@ -75,6 +79,7 @@ export default {
         used_time: 0,
       }];
       localStorage.setItem('missions', JSON.stringify(this.form_items));
+      this.$store.dispatch('setMissionList', this.form_items);
     },
     handleAdd() {
       this.index++;
@@ -97,6 +102,7 @@ export default {
         });
       }
       localStorage.setItem('missions', JSON.stringify(this.form_items));
+      this.$store.dispatch('setMissionList', this.form_items);
     },
     goHome() {
       this.$router.push({ path: '/home' });
