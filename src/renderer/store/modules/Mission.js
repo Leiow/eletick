@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   setMissionList({ commit }, list) {
-    console.log(list);
+    localStorage.setItem('missions', JSON.stringify(list));
     commit('SET_MISSION_LIST', list);
   },
 };

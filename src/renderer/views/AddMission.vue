@@ -63,7 +63,7 @@ export default {
           this.form_items.forEach((value, index) => {
             value.need_time = Number.parseInt(value.need_time);
           });
-          localStorage.setItem('missions', JSON.stringify(this.form_items));
+          this.$store.dispatch('setMissionList', this.form_items);
           this.$Message.success('Success!');
         } else {
           this.$Message.error('Fail!');
@@ -78,7 +78,6 @@ export default {
         index: 1,
         used_time: 0,
       }];
-      localStorage.setItem('missions', JSON.stringify(this.form_items));
       this.$store.dispatch('setMissionList', this.form_items);
     },
     handleAdd() {
@@ -101,7 +100,6 @@ export default {
           used_time: 0,
         });
       }
-      localStorage.setItem('missions', JSON.stringify(this.form_items));
       this.$store.dispatch('setMissionList', this.form_items);
     },
     goHome() {
