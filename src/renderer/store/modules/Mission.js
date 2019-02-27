@@ -9,17 +9,24 @@ const state = {
   ],
 };
 
+// const mutations = {
+//   SET_MISSION_LIST(state, list) {
+//     state.list = list;
+//   },
+// };
 const mutations = {
-  SET_MISSION_LIST(state, list) {
-    state.list = list;
-  },
+  SET_MISSION_LIST: (state, list) => state.list = list,
 };
 
 const actions = {
-  setMissionList({ commit }, list) {
+  setMissionList: ({ commit }, list) => {
     localStorage.setItem('missions', JSON.stringify(list));
     commit('SET_MISSION_LIST', list);
   },
+  // setMissionList({ commit }, list) {
+  //   localStorage.setItem('missions', JSON.stringify(list));
+  //   commit('SET_MISSION_LIST', list);
+  // },
 };
 
 const getters = {
