@@ -10,14 +10,14 @@
       </i-circle>
     </Row>
     <Row type="flex" justify="center" :gutter="16" class="status-btn-group">
-      <Col>
-        <Button type="warning" class="status-btn">暂停</Button>
+      <Col span="6">
+        <Button type="warning" :disabled="disable_pause" class="status-btn" @click="pause">暂停</Button>
       </Col>
-      <Col>
-        <Button type="info" class="status-btn">开始</Button>
+      <Col span="6">
+        <Button type="info" :disabled="disable_start" class="status-btn" @click="start">开始</Button>
       </Col>
-      <Col>
-        <Button type="success" class="status-btn">完成</Button>
+      <Col span="6">
+        <Button type="success" class="status-btn" @click="end">完成</Button>
       </Col>
     </Row>
     <Row type="flex" align="middle" justify="center">
@@ -31,6 +31,10 @@
 <script>
 export default {
   props: {
+    index: {
+      type: Number,
+      required: true,
+    },
     total_time: {
       type: Number,
       default: 60,
@@ -42,8 +46,11 @@ export default {
   },
   data() {
     return {
-      minutes: '30',
-      seconds: '30',
+      disable_start: false,
+      disable_pause: true,
+      timer_id: null,
+      minutes: 0,
+      seconds: 0,
       table_column: [
         {
           'title': 'Title',
@@ -75,28 +82,63 @@ export default {
       ],
     };
   },
-  created() {
+  methods: {
+    start() {
+      // 开始计时
+      this.disable_start = true;
+      this.disable_pause = false;
+      this.timer_id = setInterval(() => {
+        this.seconds++;
+        if (this.seconds === 60) {
+          this.minutes++;
+          this.seconds = 0;
+        }
+      }, 1000);
+    },
+    pause() {
+      // 暂停计时
+      this.disable_start = false;
+      this.disable_pause = true;
+      if (this.timer_id !== null) {
+        clearInterval(this.timer_id);
+      }
+    },
+    end() {
+      // 结束计时
+      if (this.minutes === 0 && this.seconds === 0) {
+        this.$Notice.warning({
+          title: '想偷懒？',
+          duration: 2,
+        });
+        return;
+      }
+      this.disable_start = false;
+      this.disable_pause = true;
+      if (this.timer_id !== null) {
+        clearInterval(this.timer_id);
+      }
+    },
   },
 };
 </script>
 
 <style>
 .top-row, .process-row, .status-btn-group {
-  margin-bottom: 5vw;
+  margin-bottom: 5%;
 }
 .top-row {
-  height: 20vw;
+  height: 20%;
 }
 .mission-name {
   font-size: 35px;
   font-weight: bold;
 }
 .process-row {
-  height: 30vw;
+  height: 30%;
 }
 .status-btn {
-  width: 20vh;
-  height: 10vw;
+  width: 100%;
+  height: 100%;
   font-size: 24px !important;
 }
 </style>

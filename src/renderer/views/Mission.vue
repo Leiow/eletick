@@ -1,8 +1,11 @@
 <template>
   <div>
     <Row>
-      <mission-progress
-        mission_name="大佬们别愁！">
+      <mission-progress v-for="(item, index) of mission_list"
+        :key="index"
+        :index="index"
+        :total_time="item.need_time"
+        :mission_name="item.something">
       </mission-progress>
     </Row>
     <Button @click="jump">Back Home</Button>
@@ -22,7 +25,11 @@ export default {
   },
   data() {
     return {
+      mission_list: [],
     };
+  },
+  created() {
+    this.mission_list = this.$store.getters.getMissionList;
   },
   methods: {
     jump() {
