@@ -17,14 +17,25 @@
         <Button type="info" :disabled="disable_start" class="status-btn" @click="start">开始</Button>
       </Col>
       <Col span="6">
-        <Button type="success" class="status-btn" @click="end">完成</Button>
+        <Button type="success" :disabled="disable_end" class="status-btn" @click="end">完成</Button>
       </Col>
     </Row>
-    <Row type="flex" align="middle" justify="center">
+    <Row type="flex" align="middle" justify="center" class="info-show">
       <Col span="16">
-        <Table :show-header="false" :columns="table_column" :data="table_data" class="describe-table"></Table>
+        规划时长：<strong>{{ total_time }}</strong>分
       </Col>
     </Row>
+    <Row type="flex" align="middle" justify="center" class="info-show">
+      <Col span="16">
+        开始时间：<strong>{{ start_time }}</strong>
+      </Col>
+    </Row>
+    <Row type="flex" align="middle" justify="center" class="info-show">
+      <Col span="16">
+        结束时间：<strong>{{ end_time }}</strong>
+      </Col>
+    </Row>
+    <Button @click="clear">CLEAR</Button>
   </div>
 </template>
 
@@ -43,50 +54,38 @@ export default {
       type: String,
       required: true,
     },
+    used_time: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
       disable_start: false,
       disable_pause: true,
+      disable_end: false,
       timer_id: null,
       minutes: 0,
       seconds: 0,
-      table_column: [
-        {
-          'title': 'Title',
-          'key': 'title',
-          'align': 'center',
-        },
-        {
-          'title': 'Time',
-          'key': 'time',
-        },
-      ],
-      table_data: [
-        {
-          'title': '规划时长',
-          'time': 30,
-        },
-        {
-          'title': '开始时间',
-          'time': 30,
-        },
-        {
-          'title': '结束时间',
-          'time': 30,
-        },
-        {
-          'title': '耗时总计',
-          'time': 30,
-        },
-      ],
+      start_time: '',
+      end_time: '',
     };
+  },
+  created() {
+    this.seconds = this.used_time % 60;
+    this.minutes = Number.parseInt(this.used_time / 60);
+  },
+  mounted() {
+    const MissionInfo = this.$store.getters.getMissionByIndex(this.index);
+    this.start_time = MissionInfo.start_time;
+    this.end_time = MissionInfo.end_time;
   },
   methods: {
     start() {
       // 开始计时
       this.disable_start = true;
       this.disable_pause = false;
+      this.disable_end = false;
       this.timer_id = setInterval(() => {
         this.seconds++;
         if (this.seconds === 60) {
@@ -94,14 +93,26 @@ export default {
           this.seconds = 0;
         }
       }, 1000);
+      if (this.$store.getters.getMissionByIndex(this.index).start_time === '') {
+        this.start_time = new Date().toLocaleString();
+        this.$store.dispatch('setStartTime', {
+          index: this.index,
+          time: this.start_time,
+        });
+      }
     },
     pause() {
       // 暂停计时
       this.disable_start = false;
       this.disable_pause = true;
+      this.disable_end = false;
       if (this.timer_id !== null) {
         clearInterval(this.timer_id);
       }
+      this.$store.dispatch('setUsedTime', {
+        index: this.index,
+        time: this.minutes * 60 + this.seconds,
+      });
     },
     end() {
       // 结束计时
@@ -111,12 +122,29 @@ export default {
           duration: 2,
         });
         return;
+      } else {
+        this.disable_start = false;
+        this.disable_pause = true;
+        this.disable_end = true;
+        if (this.timer_id !== null) {
+          clearInterval(this.timer_id);
+          this.end_time = new Date().toLocaleString();
+          this.$store.dispatch('setEndTime', {
+            index: this.index,
+            time: this.end_time,
+          });
+        }
       }
-      this.disable_start = false;
-      this.disable_pause = true;
-      if (this.timer_id !== null) {
-        clearInterval(this.timer_id);
-      }
+    },
+    computeTime() {
+      return this.minutes * 60 + this.seconds;
+    },
+    clear() {
+      this.$store.dispatch('setUsedTime', {
+        index: this.index,
+        time: 0,
+      });
+      this.$store.dispatch('clearStartTime', this.index);
     },
   },
 };
@@ -139,6 +167,9 @@ export default {
 .status-btn {
   width: 100%;
   height: 100%;
-  font-size: 24px !important;
+  font-size: 4vw !important;
+}
+.info-show {
+  font-size: 4vw;
 }
 </style>

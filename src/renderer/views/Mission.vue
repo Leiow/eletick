@@ -5,7 +5,8 @@
         :key="index"
         :index="index"
         :total_time="item.need_time"
-        :mission_name="item.something">
+        :mission_name="item.something"
+        :used_time="item.used_time">
       </mission-progress>
     </Row>
     <Button @click="jump">Back Home</Button>
