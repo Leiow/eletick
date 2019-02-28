@@ -4,7 +4,7 @@
       <span class="mission-name">{{ mission_name }}</span>
     </Row>
     <Row type="flex" align="middle" justify="center" class="process-row">
-      <i-circle :percent="70" :size="180">
+      <i-circle :percent="percent" :stroke-color="stroke_color" :size="180">
         <span style="font-size:30px">{{ minutes }}</span>分
         <span style="font-size:30px">{{ seconds }}</span>秒
       </i-circle>
@@ -69,6 +69,8 @@ export default {
       seconds: 0,
       start_time: '',
       end_time: '',
+      percent: 0,
+      stroke_color: '#2db7f5',
     };
   },
   created() {
@@ -92,6 +94,16 @@ export default {
           this.minutes++;
           this.seconds = 0;
         }
+        this.percent = this.percent === 100 ? 100 :(this.minutes / this.total_time) * 100;
+        console.log('percent', this.percent);
+        if (this.percent > 60 && this.percent <= 80) {
+          this.stroke_color = '#ffb600';
+        } else if (this.percent > 80) {
+          this.stroke_color = '#ff5500';
+        } else {
+          this.stroke_color = '#2db7f5';
+        }
+        console.log('stroke_color', this.stroke_color);
       }, 1000);
       if (this.$store.getters.getMissionByIndex(this.index).start_time === '') {
         this.start_time = new Date().toLocaleString();
