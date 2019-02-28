@@ -5,8 +5,8 @@
     </Row>
     <Row type="flex" align="middle" justify="center" class="process-row">
       <i-circle :percent="percent" :stroke-color="stroke_color" :size="180">
-        <span style="font-size:30px">{{ minutes }}</span>分
-        <span style="font-size:30px">{{ seconds }}</span>秒
+        <span style="font-size:6vw">{{ minutes }}</span>分
+        <span style="font-size:4vw">{{ seconds }}</span>秒
       </i-circle>
     </Row>
     <Row type="flex" justify="center" :gutter="16" class="status-btn-group">
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
   props: {
     index: {
@@ -79,8 +80,8 @@ export default {
   },
   mounted() {
     const MissionInfo = this.$store.getters.getMissionByIndex(this.index);
-    this.start_time = MissionInfo.start_time;
-    this.end_time = MissionInfo.end_time;
+    this.start_time = MissionInfo.start_time ? MissionInfo.start_time : '--';
+    this.end_time = MissionInfo.end_time ? MissionInfo.end_time : '--';
   },
   methods: {
     start() {
@@ -95,7 +96,6 @@ export default {
           this.seconds = 0;
         }
         this.percent = this.percent === 100 ? 100 :(this.minutes / this.total_time) * 100;
-        console.log('percent', this.percent);
         if (this.percent > 60 && this.percent <= 80) {
           this.stroke_color = '#ffb600';
         } else if (this.percent > 80) {
@@ -103,10 +103,9 @@ export default {
         } else {
           this.stroke_color = '#2db7f5';
         }
-        console.log('stroke_color', this.stroke_color);
       }, 1000);
       if (this.$store.getters.getMissionByIndex(this.index).start_time === '') {
-        this.start_time = new Date().toLocaleString();
+        this.start_time = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
         this.$store.dispatch('setStartTime', {
           index: this.index,
           time: this.start_time,
@@ -140,7 +139,7 @@ export default {
         this.disable_end = true;
         if (this.timer_id !== null) {
           clearInterval(this.timer_id);
-          this.end_time = new Date().toLocaleString();
+          this.end_time = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
           this.$store.dispatch('setEndTime', {
             index: this.index,
             time: this.end_time,
@@ -148,15 +147,16 @@ export default {
         }
       }
     },
-    computeTime() {
-      return this.minutes * 60 + this.seconds;
-    },
     clear() {
       this.$store.dispatch('setUsedTime', {
         index: this.index,
         time: 0,
       });
       this.$store.dispatch('clearStartTime', this.index);
+      this.$store.dispatch('setEndTime', {
+        index: this.index,
+        time: '',
+      });
     },
   },
 };

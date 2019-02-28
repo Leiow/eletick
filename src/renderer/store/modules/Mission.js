@@ -23,8 +23,10 @@ const mutations = {
     saveMission(state.list);
   },
   SET_START_TIME: (state, { index, time }) => {
-    state.list[index].start_time = time;
-    saveMission(state.list);
+    if (state.list[index].start_time === '') {
+      state.list[index].start_time = time;
+      saveMission(state.list);
+    }
   },
   CLEAR_START_TIME: (state, index) => {
     state.list[index].start_time = '';
