@@ -3,7 +3,6 @@ const state = {
     {
       something: '',
       need_time: '',
-      index: 1,
       used_time: 0,
       start_time: '',
       end_time: '',

@@ -37,7 +37,6 @@
 export default {
   data() {
     return {
-      index: 1,
       form_items: [],
     };
   },
@@ -50,8 +49,9 @@ export default {
         {
           something: '',
           need_time: '',
-          index: 1,
           used_time: 0,
+          start_time: '',
+          end_time: '',
         }
       ];
     }
@@ -75,31 +75,23 @@ export default {
       this.form_items = [{
         something: '',
         need_time: '',
-        index: 1,
         used_time: 0,
+        start_time: '',
+        end_time: '',
       }];
       this.$store.dispatch('setMissionList', this.form_items);
     },
     handleAdd() {
-      this.index++;
       this.form_items.push({
         something: '',
         need_time: '',
-        index: this.index,
         used_time: 0,
+        start_time: '',
+        end_time: '',
       });
     },
     handleRemove(index) {
       this.form_items.splice(index, 1);
-      if (this.form_items.length === 0) {
-        this.index = 1;
-        this.form_items.push({
-          something: '',
-          need_time: '',
-          index: 1,
-          used_time: 0,
-        });
-      }
       this.$store.dispatch('setMissionList', this.form_items);
     },
     goHome() {
