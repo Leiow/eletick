@@ -11,7 +11,7 @@ export default new Router({
       component: require('@/views/AddMission').default,
     },
     {
-      path: '/mission',
+      path: '/mission/:index',
       name: 'Mission',
       component: require('@/views/Mission').default,
     },

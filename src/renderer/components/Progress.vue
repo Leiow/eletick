@@ -27,12 +27,12 @@
     </Row>
     <Row type="flex" align="middle" justify="center" class="info-show">
       <Col span="16">
-        开始时间：<strong>{{ start_time }}</strong>
+        开始时间：<strong>{{ begin }}</strong>
       </Col>
     </Row>
     <Row type="flex" align="middle" justify="center" class="info-show">
       <Col span="16">
-        结束时间：<strong>{{ end_time }}</strong>
+        结束时间：<strong>{{ finish }}</strong>
       </Col>
     </Row>
     <Button @click="clear">CLEAR</Button>
@@ -59,6 +59,14 @@ export default {
       type: Number,
       default: 0,
     },
+    start_time: {
+      type: String,
+      default: '',
+    },
+    end_time: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -68,8 +76,8 @@ export default {
       timer_id: null,
       minutes: 0,
       seconds: 0,
-      start_time: '',
-      end_time: '',
+      begin: '',
+      finish: '',
       percent: 0,
       stroke_color: '#2db7f5',
     };
@@ -77,11 +85,10 @@ export default {
   created() {
     this.seconds = this.used_time % 60;
     this.minutes = Number.parseInt(this.used_time / 60);
+    this.begin = this.start_time;
+    this.finish = this.end_time;
   },
   mounted() {
-    const MissionInfo = this.$store.getters.getMissionByIndex(this.index);
-    this.start_time = MissionInfo.start_time ? MissionInfo.start_time : '--';
-    this.end_time = MissionInfo.end_time ? MissionInfo.end_time : '--';
   },
   methods: {
     start() {
@@ -104,11 +111,11 @@ export default {
           this.stroke_color = '#2db7f5';
         }
       }, 1000);
-      if (this.$store.getters.getMissionByIndex(this.index).start_time === '') {
-        this.start_time = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      if (this.begin === '') {
+        this.begin = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
         this.$store.dispatch('setStartTime', {
           index: this.index,
-          time: this.start_time,
+          time: this.begin,
         });
       }
     },
@@ -116,7 +123,7 @@ export default {
       // 暂停计时
       this.disable_start = false;
       this.disable_pause = true;
-      this.disable_end = false;
+      this.disable_end = true;
       if (this.timer_id !== null) {
         clearInterval(this.timer_id);
       }
@@ -139,12 +146,16 @@ export default {
         this.disable_end = true;
         if (this.timer_id !== null) {
           clearInterval(this.timer_id);
-          this.end_time = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
+          this.finish = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
           this.$store.dispatch('setEndTime', {
             index: this.index,
-            time: this.end_time,
+            time: this.finish,
           });
         }
+        this.$store.dispatch('setUsedTime', {
+          index: this.index,
+          time: this.minutes * 60 + this.seconds,
+        });
       }
     },
     clear() {
