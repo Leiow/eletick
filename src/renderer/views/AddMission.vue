@@ -4,30 +4,32 @@
         v-for="(item, index) in form_items"
         :key="index"
         :prop="'items.' + index + '.something'">
-      <Row class="button-group">
-        <Col span="9">
+      <Row class="button-group" :gutter="16">
+        <Col span="12">
           <Input type="text" v-model="item.something" placeholder="要干啥啊"></Input>
         </Col>
-        <Col span="7" offset="1">
+        <Col span="8">
           <Input type="text" v-model="item.need_time" placeholder="干多久啊(minute)"></Input>
         </Col>
-        <Col span="6" offset="1">
-          <Button type="error" @click="handleRemove(index)">Delete</Button>
+        <Col span="4">
+          <Button long type="error" @click="handleRemove(index)">Delete</Button>
         </Col>
       </Row>
     </FormItem>
     <FormItem>
-      <Row>
-        <Col span="12">
-          <Button type="dashed" long @click="handleAdd" icon="md-add">啥也不说就是干！</Button>
+      <Row type="flex" align="middle" justify="center" :gutter="16">
+        <Col span="6">
+          <Button long type="success" @click="handleAdd" icon="md-add">Add Todo</Button>
         </Col>
-      </Row>
-    </FormItem>
-    <FormItem>
-      <Row type="flex" align="middle" justify="center">
-        <Button type="primary" @click="handleSubmit('form_items')">就这些吧</Button>
-        <Button @click="handleReset('form_items')" style="margin-left: 8px">不行不行</Button>
-        <Button type="info" @click="goHome" style="margin-left: 8px">不能再加了</Button>
+        <Col span="6">
+          <Button long type="primary" @click="handleSubmit('form_items')" icon="md-send">Submit</Button>
+        </Col>
+        <Col span="6">
+          <Button long type="warning" @click="handleReset('form_items')" icon="md-redo">Reset</Button>
+        </Col>
+        <Col span="6">
+          <Button long type="dashed" @click="goHome" icon="md-home">Back</Button>
+        </Col>
       </Row>
     </FormItem>
   </Form>
@@ -70,6 +72,7 @@ export default {
         }
       });
       this.$store.dispatch('setMissionList', this.form_items);
+      this.$router.push({ path: '/home' });
     },
     handleReset(name) {
       this.form_items = [{
