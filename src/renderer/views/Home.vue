@@ -61,6 +61,7 @@ export default {
         used_time: (value.used_time / 60).toFixed(4),
         start_time: value.start_time,
         end_time: value.end_time,
+        expected_end_time: dayjs(value.expected_end_time).format('YYYY-MM-DD HH:mm:ss'),
       };
     });
   },
@@ -93,20 +94,24 @@ export default {
             key: 'something',
           },
           {
+            title: '预期完成时间',
+            key: 'expected_end_time',
+          },
+          {
+            title: '实际开始时间',
+            key: 'start_time',
+          },
+          {
+            title: '实际结束时间',
+            key: 'end_time',
+          },
+          {
             title: '预估时间（分钟）',
             key: 'need_time',
           },
           {
             title: '实际消耗（分钟）',
             key: 'used_time',
-          },
-          {
-            title: '开始时间',
-            key: 'start_time',
-          },
-          {
-            title: '结束时间',
-            key: 'end_time',
           },
         ],
         data: this.table_data,

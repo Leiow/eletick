@@ -6,6 +6,7 @@ const state = {
       used_time: 0,
       start_time: '',
       end_time: '',
+      expected_end_time: '',
     },
   ],
 };
@@ -35,6 +36,10 @@ const mutations = {
     state.list[index].end_time = time;
     saveMission(state.list);
   },
+  SET_EXPECTED_END_TIME: (state, { index, time }) => {
+    state.list[index].expected_end_time = time;
+    saveMission(state.list);
+  },
 };
 
 const actions = {
@@ -52,6 +57,9 @@ const actions = {
   },
   clearStartTime: ({ commit }, index) => {
     commit('CLEAR_START_TIME', index);
+  },
+  setExpectedEndTime: ({ commit }, index, time) => {
+    commit('SET_EXPECTED_END_TIME', index, time);
   },
 };
 

@@ -5,13 +5,21 @@
         :key="index"
         :prop="'items.' + index + '.something'">
       <Row class="button-group" :gutter="16">
-        <Col span="12">
+        <Col span="10">
           <Input type="text" v-model="item.something" placeholder="要干啥啊"></Input>
         </Col>
-        <Col span="8">
-          <Input type="text" v-model="item.need_time" placeholder="干多久啊(minute)"></Input>
-        </Col>
         <Col span="4">
+          <Input type="text" v-model="item.need_time" placeholder="干多久啊(分钟)"></Input>
+        </Col>
+        <Col span="7">
+          <DatePicker
+            type="datetime"
+            placeholder="选择结束时间"
+            v-model="item.expected_end_time"
+            @on-change="(datetime) => { dateChange(datetime, index) }">
+          </DatePicker>
+        </Col>
+        <Col span="3">
           <Button long type="error" @click="handleRemove(index)">Delete</Button>
         </Col>
       </Row>
@@ -54,11 +62,15 @@ export default {
           used_time: 0,
           start_time: '',
           end_time: '',
+          expected_end_time: '',
         }
       ];
     }
   },
   methods: {
+    dateChange(date, index) {
+      this.form_items[index].expected_end_time = date;
+    },
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
