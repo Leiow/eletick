@@ -86,9 +86,6 @@ export default {
   height: 30vw;
   font-size: 10vw;
 }
-.content-row {
-  /* height: 90vw !important; */
-}
 .add-mission-row {
   height: 50% !important;
 }
@@ -96,7 +93,6 @@ export default {
   margin-top: 20px;
   width: 90vw !important;
 }
-
 .ivu-table .table-start-row td {
   background-color: #2db7f5;
   color: #fff;
