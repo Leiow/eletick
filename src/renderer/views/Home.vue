@@ -109,13 +109,6 @@ export default {
             key: 'end_time',
           },
         ],
-        // columns: {
-        //   something: '工作内容',
-        //   need_time: '预估时间（分钟）',
-        //   used_time: '实际消耗（分钟）',
-        //   start_time: '开始时间',
-        //   end_time: '结束时间',
-        // },
         data: this.table_data,
       });
     },

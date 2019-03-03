@@ -35,6 +35,11 @@
         结束时间：<strong>{{ finish }}</strong>
       </Col>
     </Row>
+    <Row class="back-btn-row" type="flex" justify="center">
+      <Col span="16">
+        <Button long @click="jump">Back Home</Button>
+      </Col>
+    </Row>
   </div>
 </template>
 
@@ -86,6 +91,7 @@ export default {
     this.minutes = Number.parseInt(this.used_time / 60);
     this.begin = this.start_time;
     this.finish = this.end_time;
+    this.getPercent();
   },
   mounted() {
   },
@@ -101,14 +107,7 @@ export default {
           this.minutes++;
           this.seconds = 0;
         }
-        this.percent = this.percent === 100 ? 100 :(this.minutes / this.total_time) * 100;
-        if (this.percent > 60 && this.percent <= 80) {
-          this.stroke_color = '#ffb600';
-        } else if (this.percent > 80) {
-          this.stroke_color = '#ff5500';
-        } else {
-          this.stroke_color = '#2db7f5';
-        }
+        this.getPercent();
       }, 1000);
       if (this.begin === '') {
         this.begin = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
@@ -157,6 +156,20 @@ export default {
         });
       }
     },
+    getPercent() {
+      this.percent = this.percent === 100 ? 100 :(this.minutes / this.total_time) * 100;
+      if (this.percent > 60 && this.percent <= 80) {
+        this.stroke_color = '#ffb600';
+      } else if (this.percent > 80) {
+        this.stroke_color = '#ff5500';
+      } else {
+        this.stroke_color = '#2db7f5';
+      }
+    },
+    jump() {
+      this.pause();
+      this.$router.push({ path: '/home' });
+    },
   },
 };
 </script>
@@ -182,5 +195,8 @@ export default {
 }
 .info-show {
   font-size: 4vw;
+}
+.back-btn-row {
+  margin-top: 5vh;
 }
 </style>

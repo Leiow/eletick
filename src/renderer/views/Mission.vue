@@ -12,19 +12,10 @@
         </mission-progress>
       </Col>
     </Row>
-    <Row class="back-btn-row" type="flex" justify="center">
-      <Col span="16">
-        <Button long @click="jump">Back Home</Button>
-      </Col>
-    </Row>
   </div>
 </template>
 
 <script>
-import {
-  setInterval,
-  clearInterval
-} from 'timers';
 import MissionProgress from '@/components/Progress';
 
 export default {
@@ -41,17 +32,5 @@ export default {
     this.index = this.$route.params.index ? parseInt(this.$route.params.index) : 0;
     this.mission_list = this.$store.getters.getMissionList[this.index];
   },
-  methods: {
-    jump() {
-      clearInterval(this.timer_id);
-      this.$router.push({ path: '/home' });
-    },
-  },
 };
 </script>
-
-<style>
-.back-btn-row {
-  margin-top: 5vh;
-}
-</style>
