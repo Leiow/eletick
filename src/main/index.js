@@ -18,13 +18,22 @@ function createWindow () {
   /**
    * Initial window options
    */
-  mainWindow = new BrowserWindow({
-    height: 650,
-    minHeight: 650,
-    useContentSize: true,
-    width: 540,
-    minWidth: 540,
-  })
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow = new BrowserWindow({
+      title: 'EleTick',
+      minHeight: 730,
+      minWidth: 540,
+      useContentSize: true,
+    })
+  } else {
+    mainWindow = new BrowserWindow({
+      title: 'EleTick',
+      minHeight: 730,
+      minWidth: 670,
+      maxWidth: 670,
+      useContentSize: true,
+    })
+  }
 
   mainWindow.loadURL(winURL)
 

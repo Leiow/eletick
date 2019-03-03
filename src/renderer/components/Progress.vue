@@ -4,7 +4,7 @@
       <span class="mission-name">{{ mission_name }}</span>
     </Row>
     <Row type="flex" align="middle" justify="center" class="process-row">
-      <i-circle :percent="percent" :stroke-color="stroke_color" :size="180">
+      <i-circle :percent="percent" :stroke-color="stroke_color" class="progress-circle">
         <span style="font-size:6vw">{{ minutes }}</span>分
         <span style="font-size:4vw">{{ seconds }}</span>秒
       </i-circle>
@@ -179,7 +179,7 @@ export default {
   margin-bottom: 5%;
 }
 .top-row {
-  height: 20%;
+  height: 15vh;
 }
 .mission-name {
   font-size: 35px;
@@ -198,5 +198,9 @@ export default {
 }
 .back-btn-row {
   margin-top: 5vh;
+}
+.progress-circle {
+  width: 40% !important;
+  height: 40% !important;
 }
 </style>
