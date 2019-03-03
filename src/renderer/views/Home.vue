@@ -9,7 +9,7 @@
           <Button long type="primary" size="large" @click="addMission">今天要嘎哈</Button>
         </Col>
       </Row>
-      <Row type="flex" justify="center">
+      <Row class="mission-list" type="flex" justify="center">
         <Table class="mission-table"
           border
           :row-class-name="rowClassName"
@@ -103,5 +103,8 @@ export default {
 .ivu-table .table-timeout-row td {
   background-color: #ff5500;
   color: #fff;
+}
+.mission-list {
+  margin-bottom: 5vh;
 }
 </style>
