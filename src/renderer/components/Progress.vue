@@ -157,7 +157,7 @@ export default {
       }
     },
     getPercent() {
-      this.percent = this.percent === 100 ? 100 :(this.minutes / this.total_time) * 100;
+      this.percent = this.percent === 100 ? 100 : ((this.minutes * 60 + this.seconds) / (this.total_time * 60)) * 100;
       if (this.percent > 60 && this.percent <= 80) {
         this.stroke_color = '#ffb600';
       } else if (this.percent > 80) {
