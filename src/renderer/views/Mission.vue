@@ -1,17 +1,19 @@
 <template>
   <div>
-    <Row>
-      <mission-progress
-        :index="index"
-        :total_time="mission_list.need_time"
-        :mission_name="mission_list.something"
-        :used_time="mission_list.used_time"
-        :start_time="mission_list.start_time"
-        :end_time="mission_list.end_time">
-      </mission-progress>
+    <Row type="flex" justify="center">
+      <Col span="22">
+        <mission-progress
+          :index="index"
+          :total_time="mission_list.need_time"
+          :mission_name="mission_list.something"
+          :used_time="mission_list.used_time"
+          :start_time="mission_list.start_time"
+          :end_time="mission_list.end_time">
+        </mission-progress>
+      </Col>
     </Row>
     <Row class="back-btn-row" type="flex" justify="center">
-      <Col span="20">
+      <Col span="16">
         <Button long @click="jump">Back Home</Button>
       </Col>
     </Row>
