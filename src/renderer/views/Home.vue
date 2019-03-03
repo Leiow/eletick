@@ -5,13 +5,17 @@
     </Row>
     <Row class="content-row">
       <Row class="add-mission-row" type="flex" align="middle" justify="center">
-        <Col span="22">
-          <Button long type="primary" size="large" @click="addMission">今天要嘎哈</Button>
+        <Col span="10">
+          <Button long type="primary" size="large" @click="addMission">工作安排</Button>
+        </Col>
+        <Col span="10" offset="1">
+          <Button long type="success" size="large" @click="exportData">导出数据</Button>
         </Col>
       </Row>
       <Row class="mission-list" type="flex" justify="center">
         <Table class="mission-table"
           border
+          ref="table"
           :row-class-name="rowClassName"
           :columns="columns"
           :data="table_data"
@@ -22,6 +26,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
   data() {
     return {
@@ -53,6 +59,8 @@ export default {
         something: value.something,
         need_time: value.need_time,
         used_time: (value.used_time / 60).toFixed(4),
+        start_time: value.start_time,
+        end_time: value.end_time,
       };
     });
   },
@@ -75,6 +83,41 @@ export default {
       } else {
         return 'table-start-row';
       }
+    },
+    exportData() {
+      this.$refs.table.exportCsv({
+        filename: `工作日程-${dayjs(new Date()).format('YYYY-MM-DD')}`,
+        columns: [
+          {
+            title: '工作内容',
+            key: 'something',
+          },
+          {
+            title: '预估时间（分钟）',
+            key: 'need_time',
+          },
+          {
+            title: '实际消耗（分钟）',
+            key: 'used_time',
+          },
+          {
+            title: '开始时间',
+            key: 'start_time',
+          },
+          {
+            title: '结束时间',
+            key: 'end_time',
+          },
+        ],
+        // columns: {
+        //   something: '工作内容',
+        //   need_time: '预估时间（分钟）',
+        //   used_time: '实际消耗（分钟）',
+        //   start_time: '开始时间',
+        //   end_time: '结束时间',
+        // },
+        data: this.table_data,
+      });
     },
   },
 };
