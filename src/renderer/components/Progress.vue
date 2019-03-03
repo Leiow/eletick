@@ -35,7 +35,6 @@
         结束时间：<strong>{{ finish }}</strong>
       </Col>
     </Row>
-    <Button @click="clear">CLEAR</Button>
   </div>
 </template>
 
@@ -157,17 +156,6 @@ export default {
           time: this.minutes * 60 + this.seconds,
         });
       }
-    },
-    clear() {
-      this.$store.dispatch('setUsedTime', {
-        index: this.index,
-        time: 0,
-      });
-      this.$store.dispatch('clearStartTime', this.index);
-      this.$store.dispatch('setEndTime', {
-        index: this.index,
-        time: '',
-      });
     },
   },
 };

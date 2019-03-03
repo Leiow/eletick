@@ -51,10 +51,6 @@ export default {
         need_time: value.need_time,
         used_time: (value.used_time / 60).toFixed(4),
       };
-      this.table_data[index].used_minutes = parseInt(value.used_time / 60);
-
-      if (value.used_time === 0 || value.used_time === '') {
-      }
     });
   },
   methods: {
