@@ -10,7 +10,11 @@
         :end_time="mission_list.end_time">
       </mission-progress>
     </Row>
-    <Button @click="jump">Back Home</Button>
+    <Row class="back-btn-row" type="flex" justify="center">
+      <Col span="20">
+        <Button long @click="jump">Back Home</Button>
+      </Col>
+    </Row>
   </div>
 </template>
 
@@ -44,3 +48,8 @@ export default {
 };
 </script>
 
+<style>
+.back-btn-row {
+  margin-top: 5vh;
+}
+</style>

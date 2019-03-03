@@ -45,6 +45,9 @@ export default {
   },
   created() {
     this.$store.getters.getMissionList.forEach((value, index) => {
+      if (value.something === '' || value.something === null) {
+        return;
+      }
       this.table_data[index] = {
         index: index,
         something: value.something,
