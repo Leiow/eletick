@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 // import store from '../renderer/store'
 
 /**
@@ -33,6 +33,34 @@ function createWindow () {
       maxWidth: 670,
       useContentSize: true,
     })
+  }
+
+  if (process.platform === 'darwin') {
+    const template = [
+      {
+        label: "Application",
+        submenu: [
+          { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        ]
+      }, 
+    ];
+    template.unshift({
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' }
+      ]
+    });
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  } else {
+    Menu.setApplicationMenu(null)
   }
 
   mainWindow.loadURL(winURL)
